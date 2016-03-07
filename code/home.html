@@ -1,0 +1,89 @@
+<div class="subnavbar">
+  <div class="subnavbar-inner">
+    <div class="container">
+      <ul class="mainnav">
+        <li class="active"><a href="#/home"><i class=" icon-home"></i><span>Home</span> </a> </li>
+        <li ng-show="adminType"><a href="#/slot"><i class=" icon-th" ></i><span>Slot Status</span> </a> </li>
+        <li ng-show="adminType"><a href="#/user" ><i class="icon-user "></i><span>User</span> </a></li>
+        <li ><a href="#/password"><i class="icon-asterisk  "></i><span>Password</span> </a></li>
+        <li ng-click="logout()"><a href><i class="icon-signout "></i><span>Logout</span> </a> </li>
+      </ul>
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /subnavbar-inner -->
+</div>
+<!-- /subnavbar -->
+<div class="main">
+  <div class="main-inner">
+    <div class="container">
+      <div class="row">
+        <div class="span5">
+          <div class="widget widget-nopad">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+              <h3>Booking</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="widget big-stats-container">
+                <div class="widget-content" >
+                  <div class="shortcuts" style="margin-top:30px;">
+                    <a href class="shortcut" ng-click="advance()">
+                      <i class="shortcut-icon icon-list-alt"></i>
+                      <span class="shortcut-label">Advance</span>
+                    </a>
+                    <a href class="shortcut" ng-click="current()">
+                      <i class="shortcut-icon icon-list-alt"></i>
+                      <span class="shortcut-label">Current</span>
+                    </a>
+                    <a href="javascript:;" class="shortcut">
+                      <i class="shortcut-icon icon-list-alt"></i>
+                      <span class="shortcut-label">Cancel</span>
+                    </a>
+                  </div>
+                </div>
+                <!-- /widget-content -->
+
+              </div>
+            </div>
+          </div>
+          <!-- /widget -->
+        </div>
+        <!-- /span6 -->
+        <div class="span7">
+          <div class="widget">
+            <div class="widget-header">
+              <i class="icon-bookmark"></i>
+              <h3>Slot</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <slot-table></slot-table>
+              <button class="btn btn-primary btn-block" ng-click="book()">Book</button>
+            </div>
+            <!-- /widget-content -->
+          </div>
+        </div>
+        <!-- /span6 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /main-inner -->
+</div>
+<!-- /main -->
+
+<!--<div class="footer">
+  <div class="footer-inner">
+    <div class="container">
+      <div class="row">
+        <div class="span12"> &copy; 2013 <a href="http://www.egrappler.com/">Bootstrap Responsive Admin Template</a>. </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>-->
+<!-- /footer -->

@@ -1,0 +1,46 @@
+<div class="subnavbar">
+  <div class="subnavbar-inner">
+    <div class="container">
+      <ul class="mainnav">
+        <li ><a href="#/home"><i class=" icon-home"></i><span>Home</span> </a> </li>
+        <li ng-show="adminType" class="active"><a href="#/slot"><i class=" icon-th "></i><span>Slot Status</span> </a> </li>
+        <li ng-show="adminType"><a href="#/user"><i class="icon-user "></i><span>User</span> </a></li>
+        <li ><a href="#/password"><i class="icon-asterisk"></i><span>Password</span> </a></li>
+        <li ng-click="logout()"><a href><i class="icon-signout "></i><span>Logout</span> </a> </li>
+      </ul>
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /subnavbar-inner -->
+</div>
+<!-- /subnavbar -->
+<div class="main">
+  <div class="main-inner">
+    <div class="container">
+      <div class="row">
+        <div class="span8">
+          <div class="widget widget-nopad">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+              <h3>Slot Status</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="widget big-stats-container">
+                <div class="widget-content" >
+                  <slot-table></slot-table>
+                </div>
+                <!-- /widget-content -->
+
+              </div>
+            </div>
+          </div>
+          <!-- /widget -->
+        </div>
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /main-inner -->
+</div>
+<!-- /main -->

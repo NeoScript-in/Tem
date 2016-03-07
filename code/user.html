@@ -1,0 +1,147 @@
+<div class="subnavbar">
+  <div class="subnavbar-inner">
+    <div class="container">
+      <ul class="mainnav">
+        <li ><a href="#/home"><i class=" icon-home"></i><span>Home</span> </a> </li>
+        <li ng-show="adminType"><a href="#/slot"><i class=" icon-th "></i><span>Slot Status</span> </a> </li>
+        <li ng-show="adminType" class="active"><a href="#/user"><i class="icon-user "></i><span>User</span> </a></li>
+        <li ><a href="#/password"><i class="icon-asterisk"></i><span>Password</span> </a></li>
+        <li ng-click="logout()"><a href><i class="icon-signout "></i><span>Logout</span> </a> </li>
+      </ul>
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /subnavbar-inner -->
+</div>
+<!-- /subnavbar -->
+<div class="main">
+  <div class="main-inner">
+    <div class="container">
+      <div class="row">
+        <div class="span5">
+          <div class="widget widget-nopad">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+              <h3>Action</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="widget big-stats-container">
+                <div class="widget-content" >
+                  <div style="margin-top:30px; padding-left:68px;">
+                    <div class="control-group">
+                      <label class="control-label" for="name">User Id</label>
+                      <div class="controls">
+                        <input type="text" class="span3" id="name" value="">
+                      </div> <!-- /controls -->
+                    </div> <!-- /control-group -->
+                  </div>
+                  <div class="shortcuts" style="margin-top:30px;">
+                    <a href="javascript:;" class="shortcut">
+                      <i class="shortcut-icon icon-list-alt"></i>
+                      <span class="shortcut-label">Add</span>
+                    </a>
+                    <a href="javascript:;" class="shortcut">
+                      <i class="shortcut-icon icon-list-alt"></i>
+                      <span class="shortcut-label">Edit</span>
+                    </a>
+                    <a href="javascript:;" class="shortcut">
+                      <i class="shortcut-icon icon-list-alt"></i>
+                      <span class="shortcut-label">Delete</span>
+                    </a>
+                  </div>
+                </div>
+                <!-- /widget-content -->
+
+              </div>
+            </div>
+          </div>
+          <!-- /widget -->
+        </div>
+        <!-- /span6 -->
+        <div class="span7">
+          <div class="widget">
+            <div class="widget-header">
+              <i class="icon-user"></i>
+              <h3>User's Account</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <form name="userForm" class="form-horizontal">
+									<fieldset>
+										<div class="control-group">
+											<label class="control-label" for="username">Username</label>
+											<div class="controls">
+												<input type="text" ng-model="username" ng-minlength="3" class="span5" name="username" value="">
+                        <!-- show an error if username is too short -->
+                        <p ng-show="userForm.username.$error.minlength">username is too short.</p>
+                        <p ng-show="userForm.username.$error.required">username is required.</p>
+											</div> <!-- /controls -->
+										</div> <!-- /control-group -->
+
+
+										<div class="control-group">
+											<label class="control-label" for="name">Full Name</label>
+											<div class="controls">
+												<input type="text" ng-model="name" class="span5" name="name" value="">
+                        <p ng-show="userForm.name.$error.required">name is required.</p>
+											</div> <!-- /controls -->
+										</div> <!-- /control-group -->
+
+                    <div class="control-group">
+                      <label class="control-label" for="email">Email</label>
+                      <div class="controls">
+                        <input type="email" ng-model="email" class="span5" name="email" value="">
+                        <p ng-show="userForm.email.$error.required">email is required.</p>
+                      </div> <!-- /controls -->
+                    </div> <!-- /control-group -->
+
+										<div class="control-group">
+											<label class="control-label" for="password">Password</label>
+											<div class="controls">
+												<input type="text" ng-model="password" ng-minlength="5" class="span5" name="password" value="">
+                        <p ng-show="userForm.password.$error.minlength">password is too short.</p>
+                        <p ng-show="userForm.password.$error.required">password is required.</p>
+											</div> <!-- /controls -->
+										</div> <!-- /control-group -->
+
+
+										<div class="control-group">
+											<label class="control-label" for="confirm">Confirm</label>
+											<div class="controls">
+												<input type="text" ng-model="confirm_password"  class="span5" name="confirm" value="">
+                        <p ng-show="userForm.confirm.$error.mismatch">password mismatch</p>
+											</div> <!-- /controls -->
+										</div> <!-- /control-group -->
+
+                    <div class="control-group">
+											<label class="control-label">Type</label>
+                        <div class="controls">
+                        <label class="radio inline">
+                          <input type="radio"  ng-model="admin" ng-value="false" name="radiobtns" checked> Regular
+                        </label>
+
+                        <label class="radio inline">
+                          <input type="radio" name="radiobtns" ng-model="admin" ng-value="true"> Admin
+                        </label>
+                      </div>	<!-- /controls -->
+										</div> <!-- /control-group -->
+										 <br />
+										<div class="form-actions">
+											<button type="submit" class="btn btn-primary">Save</button>
+											<button class="btn">Cancel</button>
+										</div> <!-- /form-actions -->
+									</fieldset>
+								</form>
+            </div>
+            <!-- /widget-content -->
+          </div>
+        </div>
+        <!-- /span6 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /main-inner -->
+</div>
+<!-- /main -->
