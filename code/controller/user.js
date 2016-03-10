@@ -16,7 +16,7 @@ app.controller('user',function($scope, $location){
 
   };
 
-  $socpe.clearField = function(){
+  $scope.clearField = function(){
 
   };
 });
