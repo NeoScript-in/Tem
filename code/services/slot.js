@@ -10,6 +10,10 @@ app.factory('loginService',function($http){
 
         bookingStatus: function(userId){
           
+        },
+
+        holidayList: function(){
+        	
         }
     };
 });

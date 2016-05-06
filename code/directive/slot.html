@@ -1,36 +1,38 @@
-<form name="myForm" >
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th> Date (dd/mm/yyyy)</th>
-      <th> Slot 1</th>
-      <th> Slot 2</th>
-    </tr>
-  </thead>
-  <tbody ng-repeat="i in list">
-    <tr >
-      <td>
-        {{i.slot[0].date | date: 'dd/MM/yyyy'}}
-      </td>
-      <td>
-        <span class="slot">
-          <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[0]" ng-disabled="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">
-        </span>
-        <span ng-hide="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0" style="color:#00BA8B;">&nbsp;Available</span>
-        <span ng-show="i.counter == 1">&nbsp;Maintenance</span>
-        <span ng-show="dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">&nbsp;Holiday</span>
-        <span ng-show="i.counter == -1">&nbsp;Booked</span>
-      </td>
-      <td>
-        <span class="slot">
-          <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">
-          <span ng-hide="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0" style="color:#00BA8B;">&nbsp;Available</span>
-          <span ng-show="i.counter == 1">&nbsp;Maintenance</span>
-          <span ng-show="dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">&nbsp;Holiday</span>
-          <span ng-show="i.counter == -1">&nbsp;Booked</span>
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</form>
+<div id="printable">
+  <form name="myForm" >
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th> Date (dd/mm/yyyy)</th>
+          <th> Slot 1</th>
+          <th> Slot 2</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="i in list">
+        <tr >
+          <td>
+            {{i.slot[0].date | date: 'dd/MM/yyyy'}}
+          </td>
+          <td>
+            <span class="slot">
+              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[0]" ng-disabled="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">
+            </span>
+            <span ng-if="i.counter != 1 && i.counter != -1 && dayOfWeek(i.counter, month, year) != 6 && dayOfWeek(i.counter, month, year) != 0" style="color:#00BA8B;">&nbsp;Available</span>
+            <span style="color: #0073e6;" ng-if="i.counter == 1">&nbsp;Maintenance</span>
+            <span style="color: #ffa31a;" ng-if="dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">&nbsp;Holiday</span>
+            <span style="color: #ff4d4d;" ng-if="i.counter == -1">&nbsp;Not Available</span>
+          </td>
+          <td>
+            <span class="slot">
+              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">
+              <span ng-if="i.counter != 1 && i.counter != -1 && dayOfWeek(i.counter, month, year) != 6 && dayOfWeek(i.counter, month, year) != 0" style="color:#00BA8B;">&nbsp;Available</span>
+              <span style="color: #0073e6;" ng-if="(dayOfWeek(i.counter, month, year) != 6 || dayOfWeek(i.counter, month, year) != 0) && i.counter == 1 ">&nbsp;Maintenance</span>
+              <span style="color: #ffa31a;" ng-if="dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">&nbsp;Holiday</span>
+              <span style="color: #ff4d4d;" ng-if="i.counter == -1">&nbsp;Not Available</span>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>

@@ -109,6 +109,18 @@ app.get('/booking/advance', userAuthentication, function(req, res) {
 
 });
 
+app.get('/holiday', userAuthentication, function(req, res){
+
+  //TODO: get holiday list from database
+
+});
+
+app.post('/holiday', userAuthentication, function(req, res){
+
+  //TODO: update holiday list in database
+
+});
+
 app.get('/booking/current', userAuthentication, function(req, res) {
   if (firstHalf()) {
     //TODO: send 2 days booking status of firstHalf of month
