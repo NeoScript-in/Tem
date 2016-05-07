@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(process.env.PORT || 8100, function(req,res){
     //connection.connect();
-    console.log('database connected');
+    //console.log('database connected');
     console.log('server started');
 });
 
@@ -55,9 +55,9 @@ app.post('/login', function(req, res) {
   //TODO: fetch user info from DB and compare
   if(userName === "ranjeet" && password === "1234" && admin === true){
     var token = createJWT(userName);
-    return res.send({ token: token, userName: "ranjeet", admin: true  });
+    res.send({ token: token, userName: "ranjeet", admin: true  });
   }else {
-    return res.status(401).send({ message: 'Wrong email and/or password' });
+    res.status(401).send({ message: 'Wrong email and/or password' });
   }
 });
 
@@ -81,29 +81,29 @@ app.put('/user/update', adminAuthentication, function(req, res) {
   }
 
   //TODO: add/update data to DB
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.delete('/user/delete', adminAuthentication, function(req, res) {
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.post('/password/check', userAuthentication, function(req, res) {
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.post('/password/change', userAuthentication, function(req, res) {
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.get('/booking/advance', userAuthentication, function(req, res) {
 
    if (firstHalf()) {
      //TODO: send booking status of firstHalf of month
-     return res.send({ data: "" });
+     res.status(200).send({ data: "" });
    }else {
      //TODO: send booking status of secondHalf of month
-     return res.send({ data: "" });
+     res.status(200).send({ data: "" });
    }
 
 
@@ -124,29 +124,61 @@ app.post('/holiday', userAuthentication, function(req, res){
 app.get('/booking/current', userAuthentication, function(req, res) {
   if (firstHalf()) {
     //TODO: send 2 days booking status of firstHalf of month
-    return res.send({ data: "" });
+    res.status(200).send({ data: "" });
   }else {
     //TODO: send 2 days booking status of secondHalf of month
-    return res.send({ data: "" });
+    res.status(200).send({ data: "" });
   }
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.get('/booking/cancel', userAuthentication, function(req, res) {
   //send cuurently booked slots of a user
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.post('/booking/advance', userAuthentication, function(req, res) {
 
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.post('/booking/current', userAuthentication, function(req, res) {
 
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
 });
 
 app.post('/booking/cancel', userAuthentication, function(req, res) {
-  return res.send({ message: "" });
+  res.status(200).send({ message: "" });
+});
+
+app.get('/holiday/list', function(req, res) {
+  connection.query('select * from holiday', function(err, rows, fields) {
+    if (err) 
+      res.status(500).send(err);
+
+
+    res.status(200).send(rows);
+
+  });
+});
+
+app.put('/holiday/add', function(req, res){
+  var date = req.body.date;
+  var reason = req.body.reason;
+  var post  = {date: date, reason: reason};
+  var query = connection.query('INSERT INTO holiday SET ?', post, function(err, result) {
+    if(err)
+      res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+app.post('/holiday/remove', function(req, res){
+  var date = req.body.date;
+  var query = connection.query('DELETE FROM holiday WHERE date = ' + connection.escape(date), function(err, result) {
+    if(err)
+      res.status(500).send(err);
+
+    res.status(200).send(result);
+  });
 });

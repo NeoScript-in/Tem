@@ -45,10 +45,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "home.html",
             controller: "home"
         })
-        .state('booking', {
-            url: "/booking",
-            templateUrl: "booking.html",
-            controller: "booking"
+        .state('settings', {
+            url: "/settings",
+            templateUrl: "settings.html",
+            controller: "settings"
         })
         .state('slot', {
             url: "/slot",
