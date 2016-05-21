@@ -2,7 +2,9 @@ var app = angular.module('tem',
     [   'ui.router',
         'angular-loading-bar',
         'ui.bootstrap',
-        'ngMessages'
+        'ngMessages',
+        'ngAnimate', 
+        'toastr'
     ]);
 app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;

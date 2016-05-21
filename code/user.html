@@ -67,35 +67,32 @@
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
-              <form name="userForm" class="form-horizontal" novalidate>
+              <form name="userForm" class="form-horizontal" ng-submit="updateUser()" novalidate>
 									<fieldset>
 										<div class="control-group">
 											<label class="control-label" for="username">Username</label>
 											<div class="controls">
-												<input type="text" ng-model="username" ng-minlength="3" class="span5" name="username" value="">
+												<input type="text" ng-model="user.username" ng-minlength="3" class="span5" name="username" value="">
                         <!-- show an error if username is too short -->
                         <div class="help-block text-danger" ng-messages="userForm.username.$error">
-                          <div ng-message="required">This field is required</div>
+                          <div ng-message="required" >This field is required</div>
                           <div ng-message="minlength">Username is too short</div>
                         </div>
 											</div> <!-- /controls -->
 										</div> <!-- /control-group -->
-
-
 										<div class="control-group">
 											<label class="control-label" for="name">Full Name</label>
 											<div class="controls">
-												<input type="text" ng-model="name" class="span5" name="name" value="">
+												<input type="text" ng-model="user.name" class="span5" name="name" value="">
                         <div class="help-block text-danger" ng-messages="userForm.name.$error">
                           <div ng-message="required">This field is required</div>
                         </div>
 											</div> <!-- /controls -->
 										</div> <!-- /control-group -->
-
                     <div class="control-group">
                       <label class="control-label" for="email">Email</label>
                       <div class="controls">
-                        <input type="email" ng-model="email" class="span5" name="email" value="">
+                        <input type="email" ng-model="user.email" class="span5" name="email" value="">
                         <div class="help-block text-danger" ng-messages="userForm.email.$error">
                           <div ng-message="required">This field is required</div>
                           <div ng-message="email">Your email address is invalid</div>
@@ -106,7 +103,7 @@
 										<div class="control-group">
 											<label class="control-label" for="password">Password</label>
 											<div class="controls">
-												<input type="password" ng-model="password" ng-minlength="5" class="span5" name="password">
+												<input type="password" ng-model="user.password" ng-minlength="5" class="span5" name="password">
                         <div class="help-block text-danger" ng-messages="userForm.password.$error">
                           <div ng-message="minlength">Password is too short</div>
                           <div ng-message="required">This field is required</div>
@@ -118,7 +115,7 @@
 										<div class="control-group">
 											<label class="control-label" for="confirm">Confirm</label>
 											<div class="controls">
-												<input passwordMatch="password" type="password" ng-model="confirmPassword"  class="span5" name="confirm" >
+												<input passwordMatch="password" type="password" ng-model="user.confirmPassword"  class="span5" name="confirm" >
                         <div class="help-block text-danger" ng-if="userForm.confirm.$dirty" ng-messages="userForm.confirm.$error">
                           <div ng-message="compareTo">Password must match.</div>
                         </div>
@@ -129,18 +126,18 @@
 											<label class="control-label">Type</label>
                         <div class="controls">
                         <label class="radio inline">
-                          <input type="radio"  ng-model="admin" ng-value="false" name="radiobtns" required> Regular
+                          <input type="radio"  ng-model="user.admin" ng-value="false" name="radiobtns" required> Regular
                         </label>
 
                         <label class="radio inline">
-                          <input type="radio" name="radiobtns" ng-model="admin" ng-value="true"> Admin
+                          <input type="radio" name="radiobtns" ng-model="user.admin" ng-value="true"> Admin
                         </label>
                       </div>	<!-- /controls -->
 										</div> <!-- /control-group -->
 										 <br />
 										<div class="form-actions">
 											<button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid ">Save</button>
-											<button class="btn">Cancel</button>
+											<button type="button" class="btn" ng-click="reset()">Reset</button>
 										</div> <!-- /form-actions -->
 									</fieldset>
 								</form>

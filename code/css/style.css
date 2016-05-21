@@ -1287,3 +1287,7 @@ color: #333;
 	}
 
 }
+
+.help-block, .help-inline{
+	color: #ff4d4d;
+}
