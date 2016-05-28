@@ -12,10 +12,13 @@ app.use(express.static(__dirname + '/code'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(process.env.PORT || 8100, function(req,res){
-    _loadAPIs();
-    console.log('apis loaded');
+    
     _loadServices();
     console.log('service loaded');
+
+    _loadAPIs();
+    console.log('apis loaded');
+    
     global.connection.connect();
     console.log('database connected');
 

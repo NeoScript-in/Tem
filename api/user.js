@@ -43,15 +43,15 @@ module.exports = function(){
 	    res.status(200).send({ message: "" });
 	});
 
-	global.app.delete('/user/delete', adminAuthentication, function(req, res) {
+	global.app.delete('/user/delete', global.util.adminAuthentication, function(req, res) {
 	  res.status(200).send({ message: "" });
 	});
 
-	global.app.post('/password/check', userAuthentication, function(req, res) {
+	global.app.post('/password/check', global.util.userAuthentication, function(req, res) {
 	  res.status(200).send({ message: "" });
 	});
 
-	global.app.post('/password/change', userAuthentication, function(req, res) {
+	global.app.post('/password/change', global.util.userAuthentication, function(req, res) {
 	  res.status(200).send({ message: "" });
 	});
 };

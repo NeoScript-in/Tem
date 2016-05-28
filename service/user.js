@@ -53,7 +53,7 @@ module.exports = function(){
 	                deferred.reject(err);
 	            });
     		}else{
-    			deferred.reject(user does not exist);
+    			deferred.reject("user does not exist");
     		}
     	},
 
