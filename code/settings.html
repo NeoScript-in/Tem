@@ -64,7 +64,7 @@
                     <tr ng-repeat = "list in holidayList">
                       <td><strong>{{ list.date | date:'fullDate'}}</strong></td>
                       <td style="text-transform: capitalize;"><strong>{{list.reason}}</strong></td>
-                      <td><button class="btn btn-danger" ng-click="remove(list.date)">Remove</button></td>
+                      <td><button class="btn btn-danger btn-sm" ng-click="remove(list.date)">Remove</button></td>
                     </tr>
                   </table>
                 </div>

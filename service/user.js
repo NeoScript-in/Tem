@@ -28,13 +28,13 @@ module.exports = function(){
     	saveUserData: function(data){
     		var deferred = global.q.defer();
     		if(!data.id){
+    			data.id = global.util.generateId();
     			_addNewUser(data).then(function(res){
                 	deferred.resolve(res);
 	            },function(err){
 	                deferred.reject(err);
 	            });
     		}else{
-    			//data.id = util.generateId();
     			_updateUser(data).then(function(res){
 	                deferred.resolve(res);
 	            },function(err){
@@ -45,9 +45,9 @@ module.exports = function(){
             return deferred.promise;
     	},
 
-    	deleteUserData: function(username){
-    		if(data.id){
-    			_deleteUser(data).then(function(res){
+    	deleteUserData: function(id){
+    		if(id){
+    			_deleteUser(id).then(function(res){
 	                deferred.resolve(res);
 	            },function(err){
 	                deferred.reject(err);
@@ -64,6 +64,7 @@ module.exports = function(){
             },function(err){
                 deferred.reject(err);
             });
+            return deferred.promise;
     	},
 
     	getAllUserList: function(){
@@ -73,6 +74,7 @@ module.exports = function(){
             },function(err){
                 deferred.reject(err);
             });
+            return deferred.promise;
     	}
 
 	};
@@ -93,9 +95,12 @@ function _login(username, password, admin){
 	    	deferred.reject(err);
 	    }
 
-	    if(result[0].count > 0){
-	    	var token = global.util.createJWT(userName);
-    		deferred.resolve({ token: token, userName: "ranjeet", admin: true  });
+	    if(result.length > 0){
+	    	var token = global.util.createJWT(result[0].username);
+	    	var type = false;
+	    	if(result[0].type === "admin")
+	    		type = true;
+	    	deferred.resolve({ token: token, username: result[0].username, admin: type  });
 	    }
 	    else{
 	    	deferred.reject({ message: 'Wrong email and/or password' });
@@ -110,6 +115,7 @@ function _addNewUser(data){
 	var deferred = global.q.defer();
 
 	var post = {};
+	post.id = data.id;
 	post.username = data.username;
 	post.name = data.name;
 	if(data.admin){
@@ -120,8 +126,9 @@ function _addNewUser(data){
 	post.email = data.email;
 	post.department = data.department;
 	post.mobile = data.mobile;
+	post.password = data.password;
 
-	var query = global.connection.query('INSERT INTO user SET ?' + post, function(err, result) {
+	var query = global.connection.query('INSERT INTO user SET ?', post, function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 
@@ -140,7 +147,7 @@ function _updateUser(data){
 	}else{
 		type = "regular";
 	}
-	var query = global.connection.query('UPDATE user SET name ='+global.connection.escape(data.name)+', email='+global.connection.escape(data.email)+', type='+type+', department='+global.connection.escape(data.department)+', mobile='+global.connection.escape(data.mobile)+' WHERE username = ' + global.connection.escape(data.username), function(err, result) {
+	var query = global.connection.query('UPDATE user SET username = '+global.connection.escape(data.username)+', name ='+global.connection.escape(data.name)+', email='+global.connection.escape(data.email)+', type="'+ type.toString() +'", department='+global.connection.escape(data.department)+', mobile='+global.connection.escape(data.mobile)+' WHERE id = ' + global.connection.escape(data.id), function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 
@@ -151,10 +158,10 @@ function _updateUser(data){
 
 }
 
-function _deleteUser(username){
+function _deleteUser(id){
 
 	var deferred = global.q.defer();
-	var query = global.connection.query('DELETE FROM user WHERE username = ' + global.connection.escape(username), function(err, result) {
+	var query = global.connection.query('DELETE FROM user WHERE id = ' + global.connection.escape(id), function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 
@@ -184,7 +191,7 @@ function _userExist(username){
 
 function _allUserList(){
 	var deferred = global.q.defer();
-	var query = global.connection.query('SELECT * FROM user', function(err, result) {
+	var query = global.connection.query('SELECT username, name, email, type, mobile, department, id FROM user', function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 

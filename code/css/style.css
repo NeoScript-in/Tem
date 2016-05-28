@@ -16,7 +16,26 @@ body {
 p {
 	font: 13px/1.7em 'Open Sans';
 }
+form{
+	margin:0;
+}
 
+.form-horizontal .control-label{
+	width: 80px;
+}
+.form-horizontal .controls{
+	margin-left: 100px;
+}
+
+input.span5, textarea.span5, .uneditable-input.span5{
+	width: 210px;
+}
+.form-actions{
+	background-color: #fff;
+}
+.form-horizontal .form-actions{
+	float: right;
+}
 input,
 button,
 select,

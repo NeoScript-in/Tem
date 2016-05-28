@@ -8,8 +8,8 @@ app.factory('userService',function($http, $q){
           return $http.put("/user/update", data);
         },
 
-        deleteUser: function(username){
-          return $http.delete("/user/delete", username);
+        removeUser: function(id){
+          return $http.delete("/user/delete", id);
         },
         userList: function(){
           return $http.get("/user/list");

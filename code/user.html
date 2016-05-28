@@ -19,37 +19,49 @@
   <div class="main-inner">
     <div class="container">
       <div class="row">
-        <div class="span5">
+        <div class="span8">
           <div class="widget widget-nopad">
-            <div class="widget-header"> <i class="icon-list-alt"></i>
-              <h3>Action</h3>
+            <div class="widget-header"> 
+              <div style="float:left;">
+                <i class="icon-list-alt"></i>
+                <h3>User List</h3>
+              </div>
+              <div style="float:right; padding-top:2px; padding-right:5px;">
+                <form>
+                  <i class="icon-search" style="position: absolute; right: 0px; padding: 8px 12px; pointer-events: none;"></i>
+                  <input type="search"  class="form-control" placeholder="Username"></input>
+                </form>
+              </div>
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
               <div class="widget big-stats-container">
                 <div class="widget-content" >
-                  <div style="margin-top:30px; padding-left:68px;">
-                    <div class="control-group">
-                      <label class="control-label" for="name">User Id</label>
-                      <div class="controls">
-                        <input type="text" class="span3" id="name" value="">
-                      </div> <!-- /controls -->
-                    </div> <!-- /control-group -->
-                  </div>
-                  <div class="shortcuts" style="margin-top:30px;">
-                    <a href="javascript:;" class="shortcut">
-                      <i class="shortcut-icon icon-list-alt"></i>
-                      <span class="shortcut-label">Add</span>
-                    </a>
-                    <a href="javascript:;" class="shortcut">
-                      <i class="shortcut-icon icon-list-alt"></i>
-                      <span class="shortcut-label">Edit</span>
-                    </a>
-                    <a href="javascript:;" class="shortcut">
-                      <i class="shortcut-icon icon-list-alt"></i>
-                      <span class="shortcut-label">Delete</span>
-                    </a>
-                  </div>
+                  <table class="table">
+                    <tr>
+                      <th>User Name</th>
+                      <th>Name</th>
+                      <th>Department</th>
+                      <th>Contact</th>
+                      <th>Action</th>
+                    </tr>
+                    <tr ng-repeat = "list in userList">
+                      <td>{{list.username}}</td>
+                      <td>{{list.name}}</td>
+                      <td>{{list.department}}</td>
+                      <td>{{list.mobile}}</td>
+                      <td>
+                          <a href ng-click="editUser($index)">
+                              <i class="icon-pencil"></i>
+                          </a>
+                          &nbsp;
+                          &nbsp;
+                          <a href ng-click="removeUser($index)">
+                              <span style="color:#ff4d4d;"><i class="icon-trash"></i></span>
+                          </a>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
                 <!-- /widget-content -->
 
@@ -59,7 +71,7 @@
           <!-- /widget -->
         </div>
         <!-- /span6 -->
-        <div class="span7">
+        <div class="span4">
           <div class="widget">
             <div class="widget-header">
               <i class="icon-user"></i>
@@ -68,7 +80,7 @@
             <!-- /widget-header -->
             <div class="widget-content">
               <form name="userForm" class="form-horizontal" ng-submit="updateUser()" novalidate>
-									<fieldset>
+									
 										<div class="control-group">
 											<label class="control-label" for="username">Username</label>
 											<div class="controls">
@@ -100,7 +112,27 @@
                       </div> <!-- /controls -->
                     </div> <!-- /control-group -->
 
-										<div class="control-group">
+                    <div class="control-group">
+                      <label class="control-label" for="department">Dept.</label>
+                      <div class="controls">
+                        <input type="text" ng-model="user.department" class="span5" name="text" value="">
+                        <div class="help-block text-danger" ng-messages="userForm.department.$error">
+                          <div ng-message="required">This field is required</div>
+                        </div>
+                      </div> <!-- /controls -->
+                    </div> <!-- /control-group -->
+
+                    <div class="control-group">
+                      <label class="control-label" for="mobile">Mobile</label>
+                      <div class="controls">
+                        <input type="text" ng-model="user.mobile" class="span5" name="mobile" value="">
+                        <div class="help-block text-danger" ng-messages="userForm.mobile.$error">
+                          <div ng-message="required">This field is required</div>
+                        </div>
+                      </div> <!-- /controls -->
+                    </div> <!-- /control-group -->
+
+										<div class="control-group" ng-if="!user.id">
 											<label class="control-label" for="password">Password</label>
 											<div class="controls">
 												<input type="password" ng-model="user.password" ng-minlength="5" class="span5" name="password">
@@ -112,7 +144,7 @@
 										</div> <!-- /control-group -->
 
 
-										<div class="control-group">
+										<div class="control-group" ng-if="!user.id">
 											<label class="control-label" for="confirm">Confirm</label>
 											<div class="controls">
 												<input passwordMatch="password" type="password" ng-model="user.confirmPassword"  class="span5" name="confirm" >
@@ -134,12 +166,12 @@
                         </label>
                       </div>	<!-- /controls -->
 										</div> <!-- /control-group -->
-										 <br />
 										<div class="form-actions">
-											<button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid ">Save</button>
+											<button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid && !user.id">Save</button>
+                      &nbsp;&nbsp;
 											<button type="button" class="btn" ng-click="reset()">Reset</button>
 										</div> <!-- /form-actions -->
-									</fieldset>
+									
 								</form>
             </div>
             <!-- /widget-content -->

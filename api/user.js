@@ -8,43 +8,45 @@ module.exports = function(){
 	    admin = true;
 	  }
 	  
-	  global.userService(userName, password, admin).then(function(result){
+	  global.userService.login(userName, password, admin).then(function(result){
             res.status(200).send(result);
         },function(err){
-            res.status(400).send(err);
+            res.status(401).send(err);
         });
 	  
 	});
 
-	global.app.get('/user/list', global.util.adminAuthentication, function(req, res) {
-		
+	global.app.get('/user/list', function(req, res) {
+
+		global.userService.getAllUserList().then(function(result){
+			res.status(200).send(result);
+		}, function(err){
+			res.status(500).send(err);
+		});
+
 	});
 
 	global.app.put('/user/update', function(req, res) {
-	    var email = req.body.email;
-	    var name = req.body.name;
-	    var password = req.body.password;
-	    var type = 'admin';
-
+		var data = {};
+		data = req.body;
+	    
 	    console.log(JSON.stringify(req.body));
 
-	    if(!req.body.admin){
-	        type = 'regular';
-	    }
+	    global.userService.saveUserData(data).then(function(result){
+    		res.status(200).send(result);
+	    }, function(err){
+			res.status(500).send(err);
+	    });
 
-	    if(req.body.username){
-	      //user exists.. update new changes
-	      var userName = req.body.username;
-	    }else {
-	      //user does not exists.. add new user
-	    }
-
-	    //TODO: add/update data to DB
-	    res.status(200).send({ message: "" });
 	});
 
-	global.app.delete('/user/delete', global.util.adminAuthentication, function(req, res) {
-	  res.status(200).send({ message: "" });
+	global.app.delete('/user/delete', global.util.adminAuthentication, function(req, res){
+		var id = req.body.id;
+		global.userService.saveUserData(id).then(function(result){
+    		res.status(200).send(result);
+	    }, function(err){
+			res.status(500).send(err);
+	    });
 	});
 
 	global.app.post('/password/check', global.util.userAuthentication, function(req, res) {
