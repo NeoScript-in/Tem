@@ -46,6 +46,7 @@ module.exports = function(){
     	},
 
     	deleteUserData: function(id){
+    		var deferred = global.q.defer();
     		if(id){
     			_deleteUser(id).then(function(res){
 	                deferred.resolve(res);
@@ -55,6 +56,7 @@ module.exports = function(){
     		}else{
     			deferred.reject("user does not exist");
     		}
+    		return deferred.promise;
     	},
 
     	getUser: function(username){

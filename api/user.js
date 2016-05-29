@@ -1,19 +1,18 @@
 module.exports = function(){
 
 	global.app.post('/login', function(req, res) {
-	  var userName = req.body.username;
-	  var password = req.body.password;
-	  var admn = false;
-	  if(req.body.admin){
-	    admin = true;
-	  }
+		var userName = req.body.username;
+		var password = req.body.password;
+		var admn = false;
+		if(req.body.admin){
+		    admin = true;
+		}
 	  
-	  global.userService.login(userName, password, admin).then(function(result){
+	  	global.userService.login(userName, password, admin).then(function(result){
             res.status(200).send(result);
         },function(err){
             res.status(401).send(err);
         });
-	  
 	});
 
 	global.app.get('/user/list', function(req, res) {
@@ -40,20 +39,20 @@ module.exports = function(){
 
 	});
 
-	global.app.delete('/user/delete', global.util.adminAuthentication, function(req, res){
+	global.app.post('/user/delete', function(req, res){
 		var id = req.body.id;
-		global.userService.saveUserData(id).then(function(result){
+		global.userService.deleteUserData(id).then(function(result){
     		res.status(200).send(result);
 	    }, function(err){
 			res.status(500).send(err);
 	    });
 	});
 
-	global.app.post('/password/check', global.util.userAuthentication, function(req, res) {
+	global.app.post('/password/check', function(req, res) {
 	  res.status(200).send({ message: "" });
 	});
 
-	global.app.post('/password/change', global.util.userAuthentication, function(req, res) {
+	global.app.post('/password/change', function(req, res) {
 	  res.status(200).send({ message: "" });
 	});
 };

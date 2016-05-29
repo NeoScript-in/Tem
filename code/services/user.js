@@ -9,7 +9,9 @@ app.factory('userService',function($http, $q){
         },
 
         removeUser: function(id){
-          return $http.delete("/user/delete", id);
+          var data = {};
+          data.id = id;
+          return $http.post("/user/delete/", data);
         },
         userList: function(){
           return $http.get("/user/list");
