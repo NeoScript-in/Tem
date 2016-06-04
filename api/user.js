@@ -3,7 +3,7 @@ module.exports = function(){
 	global.app.post('/login', function(req, res) {
 		var userName = req.body.username;
 		var password = req.body.password;
-		var admn = false;
+		var admin = false;
 		if(req.body.admin){
 		    admin = true;
 		}

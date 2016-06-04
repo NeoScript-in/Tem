@@ -56,12 +56,17 @@
             <div class="widget-header">
               <i class="icon-bookmark"></i>
               <h3>Slot</h3>
-               &nbsp; &nbsp; <button class="btn btn-default" ng-click="print('printable')">Print</button>
+              <button class="btn btn-primary btn-block control-button" ng-click="book()">
+                  &nbsp;&nbsp;Book&nbsp;&nbsp;
+              </button>
+              <button class="btn btn-default control-button" ng-click="print('printable')"><i class="icon-print"></i>&nbsp;&nbsp;&nbsp;</button>
+              
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
               <slot-table></slot-table>
-              <button class="btn btn-primary btn-block" ng-click="book()">Book</button>
+              <button class="btn btn-primary btn-block control-button" ng-click="book()">
+                &nbsp;&nbsp;Book&nbsp;&nbsp;</button>
             </div>
             <!-- /widget-content -->
           </div>

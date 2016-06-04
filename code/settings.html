@@ -19,14 +19,103 @@
   <div class="main-inner">
     <div class="container">
       <div class="row">
-        <div class="span5">
+        <div class="span6">
+          <!-- booking dates setting -->
+          <div class="widget widget-nopad">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+              <h3>Advance Booking Date Setting</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="widget big-stats-container">
+                <div class="widget-content" style="min-height: 420px; padding: 5px; padding-top:20px;">
+                  <div>
+                  <label><strong>Advance Booking Dates</strong></label>
+                    <div style="float: left;">
+                       <p class="input-group">
+                          <input type="text" 
+                                 class="form-control" 
+                                 uib-datepicker-popup="{{format}}" 
+                                 ng-model="booking.advStartDate"
+                                 is-open="advStartDate.opened" 
+                                 datepicker-options="options" 
+                                 ng-required="true" 
+                                 close-text="Close" 
+                                 alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openAdvStart()"><i class="icon-calendar"></i></button>
+                          </span>
+                        </p>
+                    </div>
+                    <div style="float: left; padding-left: 5px;">
+                       <p class="input-group">
+                          <input type="text" 
+                                 class="form-control" 
+                                 uib-datepicker-popup="{{format}}" 
+                                 ng-model="booking.advEndDate"
+                                 is-open="advEndDate.opened" 
+                                 datepicker-options="options" 
+                                 ng-required="true" 
+                                 close-text="Close" 
+                                 alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openAdvEnd()"><i class="icon-calendar"></i></button>
+                          </span>
+                        </p>
+                    </div>
+                  </div>
+                  <br>
+                  <div>
+                  <label><strong>For Duration</strong></label>
+                    <div style="float: left;">
+                       <p class="input-group">
+                          <input type="text" 
+                                 class="form-control" 
+                                 uib-datepicker-popup="{{format}}" 
+                                 ng-model="booking.bookingStartDate" 
+                                 is-open="bookStartDate.opened" 
+                                 datepicker-options="options" 
+                                 ng-required="true" 
+                                 close-text="Close" 
+                                 alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openBookStart()"><i class="icon-calendar"></i></button>
+                          </span>
+                        </p>
+                    </div>
+                    <div style="float: left; padding-left: 5px;">
+                       <p class="input-group">
+                          <input type="text" 
+                                 class="form-control" 
+                                 uib-datepicker-popup="{{format}}" 
+                                 ng-model="booking.bookingEndDate" 
+                                 is-open="bookEndDate.opened" 
+                                 datepicker-options="options" 
+                                 ng-required="true" 
+                                 close-text="Close" 
+                                 alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openBookEnd()"><i class="icon-calendar"></i></button>
+                          </span>
+                        </p>
+                    </div>
+                  </div>
+                   &nbsp;&nbsp;
+                  <button class="btn btn-primary" style="float: right;" ng-click="addBooking()">&nbsp;&nbsp;Add&nbsp;&nbsp;</button>              
+
+                </div>
+              </div>
+            </div>
+        </div>
+        <!--end of booking dates settings -->
+        <!-- holiday list setting -->
           <div class="widget widget-nopad">
             <div class="widget-header"> <i class="icon-list-alt"></i>
               <h3>Set Not Availability Date</h3>
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
-              <div class="widget big-stats-container">
+              <div class="widget big-stats-container"  style="padding: 20px;">
                 <div class="widget-content" >
                   <div style="display:inline-block; min-height:290px;">
                     <uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></uib-datepicker>
@@ -46,12 +135,12 @@
                 </div>
               </div>
             </div>
-        </div>
+        </div><!--end of holiday list setting -->
       </div>
-      <div class="span7">
+      <div class="span6">
         <div class="widget widget-nopad">
             <div class="widget-header"> <i class="icon-list-alt"></i>
-              <h3>Holiday List</h3>
+              <h3>Advance Booking Schedule</h3>
             </div>
             <!-- /widget-header -->
             <div class="widget-content">
@@ -59,7 +148,28 @@
                 <div class="widget-content" >
                   <table class="table">
                     <tr>
-                      <th>Date</th><th>Reason</th><th>Action</th>
+                      <th><strong>Adv. Booking Dates</strong></th><th><strong>Booking Duration</strong></th>
+                    </tr>
+                    <tr ng-repeat = "list in bookingList">
+                      <td>{{ list.advancebookstart | date:'mediumDate'}} - {{list.advancebookend | date:'mediumDate'}}</td>
+                      <td>{{ list.bookstart | date:'mediumDate'}} - {{list.bookend | date:'mediumDate'}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="widget widget-nopad">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+              <h3>Upcoming Holidays</h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="widget big-stats-container">
+                <div class="widget-content" >
+                  <table class="table">
+                    <tr>
+                      <th><strong>Date</strong></th><th><strong>Reason</strong></th><th><strong>Action</strong></th>
                     </tr>
                     <tr ng-repeat = "list in holidayList">
                       <td><strong>{{ list.date | date:'fullDate'}}</strong></td>
@@ -71,7 +181,6 @@
               </div>
             </div>
           </div>
-        
       </div>
     </div>
   </div>

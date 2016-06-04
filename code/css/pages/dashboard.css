@@ -206,6 +206,8 @@ Bootstrap Admin Template by EGrappler.com
 
 .big-stats-container .widget-content {
 	border:0;
+	max-height: 600px;
+	overflow: auto;
 }
 
 #big_stats .stat

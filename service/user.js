@@ -12,7 +12,7 @@ module.exports = function(){
   			return deferred.promise;
     	},
     	register: function(){
-
+    		
     	},
     	
     	userExist: function(username){
