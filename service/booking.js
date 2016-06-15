@@ -2,6 +2,16 @@ module.exports = function(){
 
     var obj = {
 
+    	advBookingDate: function(){
+    		var deferred = global.q.defer();
+            _advBookingDate().then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	},
+    	
     	bookingListForUser: function(userId){
     		var deferred = global.q.defer();
 			_bookingListForUser(userId).then(function(res){
@@ -49,6 +59,18 @@ module.exports = function(){
 	};
 	return obj;
 };
+
+function _advBookingDate(){
+	var deferred = global.q.defer();
+	var today = new Date();
+	var query = global.connection.query('SELECT * FROM bookingdate WHERE bookend >= ' + global.connection.escape(today), function(err, result) {
+		if(err)
+		  	deferred.reject(err);
+
+		deferred.resolve(result[0]);
+	});
+	return deferred.promise;
+}
 
 function _bookingListForUser(userId){
 	var deferred = global.q.defer();

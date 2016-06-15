@@ -23,9 +23,7 @@ module.exports = function(){
 	});
 
 	global.app.get('/holiday/list', function(req, res) {
-
-		var date = req.body.date;
-		global.settingService.holidayList(date).then(function(result){
+		global.settingService.holidayList().then(function(result){
             res.status(200).send(result);
         },function(err){
             res.status(500).send(err);

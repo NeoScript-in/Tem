@@ -12,6 +12,16 @@ module.exports = function(){
             return deferred.promise;
     	},
 
+    	holidayListLimit: function(enddate){
+    		var deferred = global.q.defer();
+            _listHolidayWithLimit(enddate).then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	},
+
     	holidayAdd: function(date, reason){
     		var deferred = global.q.defer();
             _addHoliday(date, reason).then(function(res){
@@ -71,7 +81,6 @@ module.exports = function(){
             });
             return deferred.promise;
     	}
-
     };
 };
 
@@ -106,6 +115,20 @@ function _listHoliday(){
 	var deferred = global.q.defer();
 	var today = new Date();
 	global.connection.query('select * from holiday WHERE date >= '+ global.connection.escape(today), function(err, rows, fields) {
+	    if (err) 
+	    	deferred.reject(err);
+
+	    deferred.resolve(rows);
+	});
+	return deferred.promise;
+}
+
+function _listHolidayWithLimit(enddate){
+
+	var deferred = global.q.defer();
+	var today = new Date();
+	var end = new Date(enddate);
+	global.connection.query('select * from holiday WHERE date >= '+ global.connection.escape(today) + ' AND date <=' + global.connection.escape(end), function(err, rows, fields) {
 	    if (err) 
 	    	deferred.reject(err);
 

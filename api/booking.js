@@ -1,5 +1,14 @@
 module.exports = function(){
 	
+	global.app.get('/advbookingdate', function(req, res){
+		
+		global.settingService.advSettingList().then(function(result){
+            res.status(200).send(result);
+        },function(err){
+            res.status(500).send(err);
+        });
+	});
+
 	global.app.get('/booking/advance', function(req, res) {
 
 		//TODO: get userId from session
@@ -9,6 +18,16 @@ module.exports = function(){
 		}, function(err){
 			res.status(500).send(err);
 		});
+	});
+
+	global.app.post('/holiday/list', function(req, res) {
+
+		var date = req.body.enddate;
+		global.settingService.holidayListLimit(date).then(function(result){
+            res.status(200).send(result);
+        },function(err){
+            res.status(500).send(err);
+        });
 	});
 
 	global.app.get('/booking/current', global.util.userAuthentication, function(req, res) {

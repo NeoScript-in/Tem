@@ -1,23 +1,23 @@
 app.controller('settings',function($scope, $location, $filter, settingsService, toastr){
-	  $scope.holidayList = [];
+	$scope.holidayList = [];
     $scope.bookingList = [];
-	  $scope.data = {};
+	$scope.data = {};
     $scope.booking = {};
-	  $scope.today = function() {
-      $scope.dt = new Date();
-    	$scope.booking.advStartDate = new Date();
-      $scope.booking.advEndDate = new Date();
-      $scope.booking.bookingStartDate = new Date();
-      $scope.booking.bookingEndDate = new Date();
+	$scope.today = function() {
+        $scope.dt = new Date();
+        $scope.booking.advStartDate = new Date();
+        $scope.booking.advEndDate = new Date();
+        $scope.booking.bookingStartDate = new Date();
+        $scope.booking.bookingEndDate = new Date();
     };
   	$scope.today();
 
   	$scope.clear = function() {
     	$scope.dt = null;
-      $scope.booking.advStartDate = null;
-      $scope.booking.advEndDate = null;
-      $scope.booking.bookingStartDate = null();
-      $scope.booking.bookingEndDate = null();
+        $scope.booking.advStartDate = null;
+        $scope.booking.advEndDate = null;
+        $scope.booking.bookingStartDate = null();
+        $scope.booking.bookingEndDate = null();
   	};
 
   	$scope.options = {

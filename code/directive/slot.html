@@ -8,27 +8,27 @@
           <th> Slot 2</th>
         </tr>
       </thead>
-      <tbody ng-repeat="i in list">
+      <tbody ng-repeat="i in dateRange">
         <tr >
           <td>
             {{i.slot[0].date | date: 'dd/MM/yyyy'}}
           </td>
           <td>
             <span class="slot">
-              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[0]" ng-disabled="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">
+              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[0]" ng-disabled="isDisabled(i.slot[0].date)">
             </span>
-            <span ng-if="i.counter != 1 && i.counter != -1 && dayOfWeek(i.counter, month, year) != 6 && dayOfWeek(i.counter, month, year) != 0" style="color:#00BA8B;">&nbsp;Available</span>
-            <span style="color: #0073e6;" ng-if="i.counter == 1">&nbsp;Maintenance</span>
-            <span style="color: #ffa31a;" ng-if="dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">&nbsp;Holiday</span>
-            <span style="color: #ff4d4d;" ng-if="i.counter == -1">&nbsp;Not Available</span>
+            <span ng-if="getDate(i.slot[0].date)  != 1 && getDate(i.slot[0].date)  != -1 && dayOfWeek(i.slot[0].date) != 6 && dayOfWeek(i.slot[0].date) != 0" style="color:#00BA8B;">&nbsp;Available</span>
+            <span style="color: #0073e6;" ng-if="isMaintenance(i.slot[0].date)">&nbsp;Maintenance</span>
+            <span style="color: #ffa31a;" ng-if="isHoliday(i.slot[0].date)">&nbsp;Holiday</span>
+            <span style="color: #ff4d4d;" ng-if="getDate(i.slot[0].date)  == -1">&nbsp;Not Available</span>
           </td>
           <td>
             <span class="slot">
-              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="i.counter == 1 || i.counter == -1 || dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">
-              <span ng-if="i.counter != 1 && i.counter != -1 && dayOfWeek(i.counter, month, year) != 6 && dayOfWeek(i.counter, month, year) != 0" style="color:#00BA8B;">&nbsp;Available</span>
-              <span style="color: #0073e6;" ng-if="(dayOfWeek(i.counter, month, year) != 6 || dayOfWeek(i.counter, month, year) != 0) && i.counter == 1 ">&nbsp;Maintenance</span>
-              <span style="color: #ffa31a;" ng-if="dayOfWeek(i.counter, month, year) == 6 || dayOfWeek(i.counter, month, year) == 0">&nbsp;Holiday</span>
-              <span style="color: #ff4d4d;" ng-if="i.counter == -1">&nbsp;Not Available</span>
+              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="isDisabled(i.slot[0].date)">
+              <span ng-if="getDate(i.slot[0].date) != 1 && getDate(i.slot[0].date) != -1 && dayOfWeek(i.slot[0].date) != 6 && dayOfWeek(i.slot[0].date) != 0" style="color:#00BA8B;">&nbsp;Available</span>
+              <span style="color: #0073e6;" ng-if="isMaintenance(i.slot[0].date)">&nbsp;Maintenance</span>
+              <span style="color: #ffa31a;" ng-if="isHoliday(i.slot[0].date)">&nbsp;Holiday</span>
+              <span style="color: #ff4d4d;" ng-if="getDate(i.slot[0].date) == -1">&nbsp;Not Available</span>
             </span>
           </td>
         </tr>
