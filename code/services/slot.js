@@ -1,4 +1,4 @@
-app.factory('loginService',function($http){
+app.factory('bookingService',function($http){
     return {
         newBooking: function(userId, date){
 
@@ -14,6 +14,10 @@ app.factory('loginService',function($http){
 
         holidayList: function(){
         	
+        },
+
+        bookingSlots: function(){
+            return $http.get('/booking/advance');
         }
     };
 });

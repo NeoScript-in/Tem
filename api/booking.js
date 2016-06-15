@@ -1,14 +1,14 @@
 module.exports = function(){
 	
-	global.app.get('/booking/advance', global.util.userAuthentication, function(req, res) {
+	global.app.get('/booking/advance', function(req, res) {
 
-	   if (firstHalf()) {
-	     //TODO: send booking status of firstHalf of month
-	     res.status(200).send({ data: "" });
-	   }else {
-	     //TODO: send booking status of secondHalf of month
-	     res.status(200).send({ data: "" });
-	   }
+		//TODO: get userId from session
+		var userId = "abc";
+		global.bookingService.bookingListForUser(userId).then(function(result){
+			res.status(200).send(result);
+		}, function(err){
+			res.status(500).send(err);
+		});
 	});
 
 	global.app.get('/booking/current', global.util.userAuthentication, function(req, res) {

@@ -90,4 +90,11 @@ app.controller('home',function($scope, $location){
 
   $scope.advance();
 
+  $socpe.bookingSlot = function(){
+      bookingService.bookingSlots().then(function(){
+
+      }).catch(function(){
+
+      });
+  }
 });
