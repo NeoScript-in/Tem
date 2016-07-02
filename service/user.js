@@ -15,6 +15,16 @@ module.exports = function(){
     		
     	},
     	
+    	isAdmin: function(username){
+    		var deferred = global.q.defer();
+            _isAdmin(username).then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	}, 
+
     	userExist: function(username){
     		var deferred = global.q.defer();
             _userExist(username).then(function(res){
@@ -178,6 +188,23 @@ function _userExist(username){
 
 	var deferred = global.q.defer();
 	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(username), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    if(result[0].count > 0)
+	    	deferred.resolve(true);
+	    else
+	    	deferred.resolve(false);
+  	});
+
+	return deferred.promise;
+
+}
+
+function _isAdmin(username){
+
+	var deferred = global.q.defer();
+	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(username) + ' AND type = "admin"', function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 

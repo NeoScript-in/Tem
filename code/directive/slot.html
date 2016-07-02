@@ -1,5 +1,4 @@
 <div id="printable">
-  <form name="myForm" >
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -15,24 +14,17 @@
           </td>
           <td>
             <span class="slot">
-              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[0]" ng-disabled="isDisabled(i.slot[0].date)">
+              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[0]" ng-disabled="isDisabled(i.slot[0].date, 'slot1')">
             </span>
-            <span ng-if="getDate(i.slot[0].date)  != 1 && getDate(i.slot[0].date)  != -1 && dayOfWeek(i.slot[0].date) != 6 && dayOfWeek(i.slot[0].date) != 0" style="color:#00BA8B;">&nbsp;Available</span>
-            <span style="color: #0073e6;" ng-if="isMaintenance(i.slot[0].date)">&nbsp;Maintenance</span>
-            <span style="color: #ffa31a;" ng-if="isHoliday(i.slot[0].date)">&nbsp;Holiday</span>
-            <span style="color: #ff4d4d;" ng-if="getDate(i.slot[0].date)  == -1">&nbsp;Not Available</span>
+            <span ng-bind-html = "isBooked(i.slot[0].date, 'slot1') || isHoliday(i.slot[0].date) || isMaintenance(i.slot[0].date) || isAvailable()"></span>
           </td>
           <td>
             <span class="slot">
-              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="isDisabled(i.slot[0].date)">
-              <span ng-if="getDate(i.slot[0].date) != 1 && getDate(i.slot[0].date) != -1 && dayOfWeek(i.slot[0].date) != 6 && dayOfWeek(i.slot[0].date) != 0" style="color:#00BA8B;">&nbsp;Available</span>
-              <span style="color: #0073e6;" ng-if="isMaintenance(i.slot[0].date)">&nbsp;Maintenance</span>
-              <span style="color: #ffa31a;" ng-if="isHoliday(i.slot[0].date)">&nbsp;Holiday</span>
-              <span style="color: #ff4d4d;" ng-if="getDate(i.slot[0].date) == -1">&nbsp;Not Available</span>
+              <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="isDisabled(i.slot[0].date, 'slot2')">
+              <span ng-bind-html = "isBooked(i.slot[0].date, 'slot2') || isHoliday(i.slot[0].date) || isMaintenance(i.slot[0].date) || isAvailable()"></span>
             </span>
           </td>
         </tr>
       </tbody>
     </table>
-  </form>
 </div>

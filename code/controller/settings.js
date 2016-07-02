@@ -110,7 +110,6 @@ app.controller('settings',function($scope, $location, $filter, settingsService, 
 
     $scope.list = function(){
     	settingsService.list().then(function(res){
-    		//console.log(res);
     		$scope.holidayList = res.data;
     	}).catch(function(err){
     		toastr.error("Error while loading holiday list", "Error");
@@ -124,7 +123,8 @@ app.controller('settings',function($scope, $location, $filter, settingsService, 
         var bookingStartDate = $scope.booking.bookingStartDate;
         var bookingEndDate = $scope.booking.bookingEndDate;
         settingsService.addBooking(advStartDate, advEndDate, bookingStartDate, bookingEndDate).then(function(res){
-            console.log(res);
+            toastr.success("Dates added to database", "Success");
+            $scope.bookingList.push({'advancebookstart':advStartDate , 'advancebookend': advEndDate, 'bookstart': bookingStartDate, 'bookend':bookingEndDate});
         }).catch(function(err){
             toastr.error("Error adding new booking settings", "Error");
         });

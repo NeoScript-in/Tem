@@ -5,12 +5,20 @@ var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 global.q = require('q');
 global.connection = require('./connection/mysql.js')();
+global.config = require('./config');
 
 app = express();
 app.use(cors());
 app.use(express.static(__dirname + '/code'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    next();
+});
+
 app.listen(process.env.PORT || 8100, function(req,res){
     
     _loadServices();
