@@ -10,8 +10,11 @@ app.factory('bookingService',function($http){
             return $http.post('/booking/new/', data);
         },
 
-        cancelBooking: function(userId, data){
-
+        cancelBooking: function(bookingId){
+            var data = {};
+            data.bookingId = bookingId;
+            data.token = localStorage.getItem('token');
+            return $http.post('/booking/cancel', data);
         },
 
         bookedList: function(start, end){

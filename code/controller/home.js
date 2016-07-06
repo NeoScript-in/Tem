@@ -1,4 +1,4 @@
-app.controller('home',function($scope, $location, $q, $sce, bookingService){
+app.controller('home',function($scope, $location, $q, $sce, bookingService,toastr){
 
     var currentDate = new Date();
     $scope.month = currentDate.getMonth()+1;
@@ -25,16 +25,25 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService){
 
     $scope.book = function(){
         bookingService.newBooking($scope.userName, $scope.slotValue.date, $scope.slotValue.slot).then(function(res){
-
+            toastr.success("Slot Booked", "Success");
         }).catch(function(err){
-
+            toastr.error(err.data, "Error");
         });
 
         console.log($scope.slotValue);
     };
 
-    $scope.cancel = function(){
-        console.log($scope.slotValue);
+    $scope.cancel = function(index){
+        bookingService.cancelBooking($scope.toCancel.id).then(function(){
+            toastr.success("Booking Cancelled", "Success");
+            for(var i=0; i<$scope.bookedList.length; i++){
+                if($scope.bookedList[i].id === $scope.toCancel.id.id){
+                    $scope.bookedList.splice(i, 1);
+                }
+            }
+        }).catch(function(err){
+            toastr.error(err.data, "Error");
+        });
     };
 
     $scope.advance = function(){

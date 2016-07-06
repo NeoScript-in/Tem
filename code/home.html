@@ -80,7 +80,6 @@
             </div>
             <!-- /widget-header -->
             <div class="widget-content" id="cancelList">
-              {{ toCancel }}
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr>
@@ -93,7 +92,8 @@
                 <tbody ng-repeat="list in bookedList">
                   <tr>
                     <td>
-                      <input type="radio" name="cancel" ng-model="toCancel" ng-value="list">
+                      <input type="radio" name="cancel" ng-model="toCancel.id" ng-value="list"/>
+                    
                     </td>
                     <td>
                       {{list.username}}

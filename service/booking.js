@@ -136,7 +136,7 @@ function _createBooking(id, username, date, slot, type){
 
 function _cancelBooking(bookingId){
 	var deferred = global.q.defer();
-	var query = global.connection.query('DELTE FROM booking WHERE id = ', global.connection.escape(bookingId), function(err, result) {
+	var query = global.connection.query('DELETE FROM booking WHERE id = '+ global.connection.escape(bookingId), function(err, result) {
 		if(err)
 		  	deferred.reject(err);
 		
