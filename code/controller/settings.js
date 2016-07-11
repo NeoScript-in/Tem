@@ -1,4 +1,5 @@
 app.controller('settings',function($scope, $location, $filter, settingsService, toastr){
+    $scope.adminType = userService.userType();
 	$scope.holidayList = [];
     $scope.bookingList = [];
 	$scope.data = {};

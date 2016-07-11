@@ -48,11 +48,21 @@ module.exports = function(){
 	    });
 	});
 
-	global.app.post('/password/check', function(req, res) {
-	  res.status(200).send({ message: "" });
+	global.app.post('/password/check', global.util.userAuthentication, function(req, res) {
+	  var password = req.body.password;
+		global.userService.passwordCheck(password, req.username).then(function(result){
+			res.status(200).send(result);
+		}, function(err){
+			res.status(500).send(err);
+		});
 	});
 
-	global.app.post('/password/change', function(req, res) {
-	  res.status(200).send({ message: "" });
+	global.app.post('/password/change', global.util.userAuthentication, function(req, res) {
+		var password = req.body.password;
+		global.userService.passwordChange(password, req.username).then(function(result){
+			res.status(200).send("Password Changed Successfully");
+		}, function(err){
+			res.status(500).send(err);
+		});
 	});
 };

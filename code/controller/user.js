@@ -1,5 +1,5 @@
 app.controller('user',function($scope, $location, userService, toastr){
-
+    $scope.adminType = userService.userType();
     $scope.user = {};
     $scope.userList = [];
 

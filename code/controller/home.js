@@ -1,5 +1,5 @@
-app.controller('home',function($scope, $location, $q, $sce, bookingService,toastr){
-
+app.controller('home',function($scope, $location, $q, $sce, bookingService, userService, toastr){
+    $scope.adminType = userService.userType();
     var currentDate = new Date();
     $scope.month = currentDate.getMonth()+1;
     $scope.year = currentDate.getFullYear();
@@ -68,21 +68,29 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService,toast
 
     $scope.init = function(){
         bookingService.advBookingDate().then(function(res){
-            $scope.bookingDate = res.data[0];
-            var start = new Date($scope.bookingDate.bookstart);
-            var end = new Date($scope.bookingDate.bookend);
-            var promise = {
-                holiday: bookingService.holidayList(end),
-                bookedList: bookingService.bookedList(start, end)
-            };
+            
+            if(res.data.length > 0){
+                $scope.bookingDate = res.data[0];
+                var start = new Date($scope.bookingDate.bookstart);
+                var end = new Date($scope.bookingDate.bookend);
+                var promise = {
+                    holiday: bookingService.holidayList(end),
+                    bookedList: bookingService.bookedList(start, end)
+                };
 
-            $q.all(promise).then((result)=>{
-                $scope.holidayList = result.holiday.data;
-                $scope.dateRange = [];
-                $scope.dateRange = validDates($scope.bookingDate.bookstart, $scope.bookingDate.bookend);
-                $scope.bookedList = result.bookedList.data;
-            });
-
+                $q.all(promise).then((result)=>{
+                    $scope.holidayList = result.holiday.data;
+                    $scope.dateRange = [];
+                    $scope.dateRange = validDates($scope.bookingDate.bookstart, $scope.bookingDate.bookend);
+                    $scope.bookedList = result.bookedList.data;
+                });
+            }else{
+                toastr.warning("Machine is currently unavailable for booking.", "Unavailable", {
+                    closeButton: true,
+                    position: 'toast-bottom-full-width'
+                });
+            }
+            
         }).catch(function(err){
             toastr.error("Error while booking schedule", "Error");
         });

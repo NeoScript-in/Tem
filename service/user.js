@@ -14,7 +14,26 @@ module.exports = function(){
     	register: function(){
     		
     	},
-    	
+    	passwordChange: function(password, username){
+    		var deferred = global.q.defer();
+    		_passwordChange(password, username).then(function(res){
+    			deferred.resolve(res);
+    		}, function(err){
+    			deferred.reject(err);
+    		});
+    		return deferred.promise;
+    	},
+
+    	passwordCheck: function(password, username){
+    		var deferred = global.q.defer();
+    		_passwordCheck(password, username).then(function(res){
+    			deferred.resolve(res);
+    		}, function(err){
+    			deferred.reject(err);
+    		});
+    		return deferred.promise;
+    	},
+
     	isAdmin: function(username){
     		var deferred = global.q.defer();
             _isAdmin(username).then(function(res){
@@ -120,6 +139,32 @@ function _login(username, password, admin){
   	});
 
   	return deferred.promise;
+}
+
+function _passwordChange(password, id){
+	var deferred = global.q.defer();
+	var query = global.connection.query('UPDATE user SET password='+global.connection.escape(password)+' WHERE username = ' + global.connection.escape(id), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+}
+
+function _passwordCheck(password, id){
+	var deferred = global.q.defer();
+	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(id) + ' AND password = '+ global.connection.escape(password), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    if(result[0].count > 0)
+	    	deferred.resolve(true);
+	    else
+	    	deferred.resolve(false);
+  	});
+	return deferred.promise;
 }
 
 function _addNewUser(data){

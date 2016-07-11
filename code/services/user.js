@@ -1,16 +1,22 @@
 app.factory('userService',function($http, $q){
     return {
         userType: function(){
-          return $scope.adminType;
+          var val = localStorage.getItem('admin');
+          if(val === "true")
+            return true;
+          else
+            return false;
         },
 
         saveUser: function(data){
+          data.token = localStorage.getItem('token');
           return $http.put("/user/update", data);
         },
 
         removeUser: function(id){
           var data = {};
           data.id = id;
+          data.token = localStorage.getItem('token');
           return $http.post("/user/delete/", data);
         },
         userList: function(){
@@ -25,12 +31,19 @@ app.factory('userService',function($http, $q){
           return $http.post("/login", data);
 
         },
-        checkPassword: function(password){
-          return  $http.post("/password/check", password);
+
+        passwordVerify: function(password){
+          var data = {};
+          data.password = password;
+          data.token = localStorage.getItem('token');
+          return  $http.post("/password/check", data);
         },
 
-        changePassword: function(password){
-          return  $http.post("/password/change", password);
+        passwordChange: function(password){
+          var data = {};
+          data.password = password;
+          data.token = localStorage.getItem('token');
+          return  $http.post("/password/change", data);
         },
 
         isLoggedIn: function(){
