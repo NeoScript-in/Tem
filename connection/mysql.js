@@ -4,6 +4,5 @@ module.exports = function(){
 			  host     : 'localhost',
 			  user     : 'root',
 			  password : 'Rnh174',
-			  database : 'tem'
-		});
+			  database : 'tem'		});
 };

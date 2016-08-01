@@ -80,9 +80,9 @@ function _advBookingDate(){
 
 function _bookedList(startdate, enddate){
 	var deferred = global.q.defer();
-	var start = new Date(startdate);
-	var end = new Date(enddate);
-	var query = global.connection.query('SELECT id, username, date, slot FROM booking WHERE date >='+ global.connection.escape(start) + ' AND date <='+ global.connection.escape(end), function(err, rows, fields){
+	var start = moment.parseZone(startdate);
+	var end = moment.parseZone(enddate);
+	var query = global.connection.query('SELECT id, username, date, slot FROM booking WHERE date >='+ global.connection.escape(start._d) + ' AND date <='+ global.connection.escape(end._d), function(err, rows, fields){
 		if(err)
 			deferred.reject(err);
 
@@ -124,6 +124,7 @@ function _createBooking(id, username, date, slot, type){
 	}else{
 		slot = 2;
 	}
+	moment(date).utcOffset('+05:30');
 	var post  = {id: id, username: username, date: date, slot: slot, type: type};
 	var query = global.connection.query('INSERT INTO booking SET ?', post, function(err, result) {
 		if(err)

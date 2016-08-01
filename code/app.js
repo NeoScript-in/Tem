@@ -4,12 +4,17 @@ var app = angular.module('tem',
         'ui.bootstrap',
         'ngMessages',
         'ngAnimate', 
-        'toastr'
+        'toastr',
+        'angularMoment'
     ]);
 app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
     cfpLoadingBarProvider.includeBar = true;
 }]);
+
+app.constant('angularMomentConfig', {
+    timezone: 'Asia/Kolkata' // e.g. 'Europe/London'
+});
 
 app.run(function ($rootScope, $location, userService) {
 

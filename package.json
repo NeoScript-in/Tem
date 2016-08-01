@@ -6,6 +6,7 @@
     "express": "^4.10.6",
     "jsonwebtoken": "^7.0.1",
     "jwt-simple": "^0.4.1",
+    "moment": "^2.14.1",
     "mysql": "^2.5.4",
     "q": "^1.4.1",
     "request": "^2.69.0"

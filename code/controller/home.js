@@ -24,6 +24,7 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
     };
 
     $scope.book = function(){
+        var bookingDate = $scope.slotValue.date.setDate($scope.slotValue.date.getDate() + 1);
         bookingService.newBooking($scope.userName, $scope.slotValue.date, $scope.slotValue.slot).then(function(res){
             toastr.success("Slot Booked", "Success");
         }).catch(function(err){
@@ -51,7 +52,7 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
         var i = new Date($scope.bookingDate.bookstart);
         var j = new Date($scope.bookingDate.bookend);
         $scope.dateRange = [];
-        $scope.dateRange = validDates(i, j);
+        $scope.dateRange = validDates($scope.bookingDate.bookstart, $scope.bookingDate.bookend);
     };
 
     $scope.showCancelList = function(){
@@ -62,7 +63,8 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
         var printContents = document.getElementById(divName).innerHTML;
         var popupWin = window.open('', '_blank', 'width=500,height=700');
         popupWin.document.open();
-        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="css/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="css/style.css" /><link href="css/bootstrap.min.css" rel="stylesheet"> \
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet"></head><body onload="window.print()">' + printContents + '</body></html>');
         popupWin.document.close();
     };
 
@@ -71,8 +73,8 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
             
             if(res.data.length > 0){
                 $scope.bookingDate = res.data[0];
-                var start = new Date($scope.bookingDate.bookstart);
-                var end = new Date($scope.bookingDate.bookend);
+                var start = $scope.bookingDate.bookstart;
+                var end = $scope.bookingDate.bookend;
                 var promise = {
                     holiday: bookingService.holidayList(end),
                     bookedList: bookingService.bookedList(start, end)
@@ -102,10 +104,10 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
         var valid = [];
         var start = new Date(startDate);
         var end = new Date(endDate);
-        var now = Date.now();
-        var today = (new Date(now)).toLocaleDateString();
+        var now = new Date();
+        var today = now.setDate(now.getDate() - 2);
         while(start < end){
-            if(start >= now){
+            if(start >= today){
                 var slot = [];
                 slot[0] = {};
                 slot[0] = {"date": start, "slot": "slot1"};

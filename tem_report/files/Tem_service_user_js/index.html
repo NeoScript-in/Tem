@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - Tem/service/user.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>Tem/service/user.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">76.04</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">303</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">59.74</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">2.77</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">module.exports = function(){
+
+    var obj = {
+
+    	login: function(username, password, admin){
+    		var deferred = global.q.defer();
+    		_login(username, password, admin).then(function(res){
+    			deferred.resolve(res);
+    		}, function(err){
+    			deferred.reject(err);
+    		});
+  			return deferred.promise;
+    	},
+    	register: function(){
+    		
+    	},
+    	passwordChange: function(password, username){
+    		var deferred = global.q.defer();
+    		_passwordChange(password, username).then(function(res){
+    			deferred.resolve(res);
+    		}, function(err){
+    			deferred.reject(err);
+    		});
+    		return deferred.promise;
+    	},
+
+    	passwordCheck: function(password, username){
+    		var deferred = global.q.defer();
+    		_passwordCheck(password, username).then(function(res){
+    			deferred.resolve(res);
+    		}, function(err){
+    			deferred.reject(err);
+    		});
+    		return deferred.promise;
+    	},
+
+    	isAdmin: function(username){
+    		var deferred = global.q.defer();
+            _isAdmin(username).then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	}, 
+
+    	userExist: function(username){
+    		var deferred = global.q.defer();
+            _userExist(username).then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	},
+
+    	saveUserData: function(data){
+    		var deferred = global.q.defer();
+    		if(!data.id){
+    			data.id = global.util.generateId();
+    			_addNewUser(data).then(function(res){
+                	deferred.resolve(res);
+	            },function(err){
+	                deferred.reject(err);
+	            });
+    		}else{
+    			_updateUser(data).then(function(res){
+	                deferred.resolve(res);
+	            },function(err){
+	                deferred.reject(err);
+	            });
+    		}
+            
+            return deferred.promise;
+    	},
+
+    	deleteUserData: function(id){
+    		var deferred = global.q.defer();
+    		if(id){
+    			_deleteUser(id).then(function(res){
+	                deferred.resolve(res);
+	            },function(err){
+	                deferred.reject(err);
+	            });
+    		}else{
+    			deferred.reject(&quot;user does not exist&quot;);
+    		}
+    		return deferred.promise;
+    	},
+
+    	getUser: function(username){
+    		var deferred = global.q.defer();
+            _getUser(username).then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	},
+
+    	getAllUserList: function(){
+    		var deferred = global.q.defer();
+            _allUserList().then(function(res){
+                deferred.resolve(res);
+            },function(err){
+                deferred.reject(err);
+            });
+            return deferred.promise;
+    	}
+
+	};
+	return obj;
+};
+
+function _login(username, password, admin){
+
+	var deferred = global.q.defer();
+	var type = &quot;regular&quot;;
+
+	if(admin){
+		type = &quot;admin&quot;;
+	}
+
+	var query = global.connection.query(&#039;SELECT * FROM user WHERE username = ? AND password = ? AND type = ?&#039;,[ username, password, type],function(err, result) {
+	    if(err){
+	    	deferred.reject(err);
+	    }
+
+	    if(result.length &gt; 0){
+	    	var token = global.util.createJWT(result[0].username);
+	    	var type = false;
+	    	if(result[0].type === &quot;admin&quot;)
+	    		type = true;
+	    	deferred.resolve({ token: token, username: result[0].username, admin: type  });
+	    }
+	    else{
+	    	deferred.reject({ message: &#039;Wrong email and/or password&#039; });
+	    }
+  	});
+
+  	return deferred.promise;
+}
+
+function _passwordChange(password, id){
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;UPDATE user SET password=&#039;+global.connection.escape(password)+&#039; WHERE username = &#039; + global.connection.escape(id), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+}
+
+function _passwordCheck(password, id){
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;SELECT COUNT(*) AS count FROM user WHERE username = &#039; + global.connection.escape(id) + &#039; AND password = &#039;+ global.connection.escape(password), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    if(result[0].count &gt; 0)
+	    	deferred.resolve(true);
+	    else
+	    	deferred.resolve(false);
+  	});
+	return deferred.promise;
+}
+
+function _addNewUser(data){
+
+	var deferred = global.q.defer();
+
+	var post = {};
+	post.id = data.id;
+	post.username = data.username;
+	post.name = data.name;
+	if(data.admin){
+		post.type = &quot;admin&quot;;
+	}else{
+		post.type = &quot;regular&quot;;
+	}
+	post.email = data.email;
+	post.department = data.department;
+	post.mobile = data.mobile;
+	post.password = data.password;
+
+	var query = global.connection.query(&#039;INSERT INTO user SET ?&#039;, post, function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+}
+
+function _updateUser(data){
+
+	var deferred = global.q.defer();
+	var type;
+	if(data.admin){
+		type = &quot;admin&quot;;
+	}else{
+		type = &quot;regular&quot;;
+	}
+	var query = global.connection.query(&#039;UPDATE user SET username = &#039;+global.connection.escape(data.username)+&#039;, name =&#039;+global.connection.escape(data.name)+&#039;, email=&#039;+global.connection.escape(data.email)+&#039;, type=&quot;&#039;+ type.toString() +&#039;&quot;, department=&#039;+global.connection.escape(data.department)+&#039;, mobile=&#039;+global.connection.escape(data.mobile)+&#039; WHERE id = &#039; + global.connection.escape(data.id), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+
+}
+
+function _deleteUser(id){
+
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;DELETE FROM user WHERE id = &#039; + global.connection.escape(id), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+
+}
+
+function _userExist(username){
+
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;SELECT COUNT(*) AS count FROM user WHERE username = &#039; + global.connection.escape(username), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    if(result[0].count &gt; 0)
+	    	deferred.resolve(true);
+	    else
+	    	deferred.resolve(false);
+  	});
+
+	return deferred.promise;
+
+}
+
+function _isAdmin(username){
+
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;SELECT COUNT(*) AS count FROM user WHERE username = &#039; + global.connection.escape(username) + &#039; AND type = &quot;admin&quot;&#039;, function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    if(result[0].count &gt; 0)
+	    	deferred.resolve(true);
+	    else
+	    	deferred.resolve(false);
+  	});
+
+	return deferred.promise;
+
+}
+
+function _allUserList(){
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;SELECT username, name, email, type, mobile, department, id FROM user&#039;, function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+}
+
+function _getUser(username){
+
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;SELECT * FROM user WHERE username = &#039;+ global.connection.escape(username), function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+
+}
+
+function _getUserList(usernameList){
+
+	var deferred = global.q.defer();
+	var query = global.connection.query(&#039;SELECT * FROM user WHERE username IN(&#039;+ global.connection.escape(usernameList)+&#039;)&#039;, function(err, result) {
+	    if(err)
+	    	deferred.reject(err);
+
+	    deferred.resolve(result);
+  	});
+
+	return deferred.promise;
+}</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

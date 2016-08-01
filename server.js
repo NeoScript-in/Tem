@@ -3,6 +3,7 @@ var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
+global.moment = require('moment');
 global.q = require('q');
 global.connection = require('./connection/mysql.js')();
 global.config = require('./config');
@@ -20,7 +21,7 @@ app.use(function(req, res, next) {
 });
 
 app.listen(process.env.PORT || 8100, function(req,res){
-    
+    //TODO: replace console log with loggly
     _loadServices();
     console.log('service loaded');
 
