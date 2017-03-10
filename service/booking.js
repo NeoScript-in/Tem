@@ -11,34 +11,14 @@ module.exports = function(){
             return deferred.promise;
     	},
     	
-    	bookedList: function(start ,end){
+    	bookedList: function(start ,end, regular, username){
     		var deferred = global.q.defer();
-    		_bookedList(start, end).then(function(res){
+    		_bookedList(start, end, regular, username).then(function(res){
     			deferred.resolve(res);
     		}, function(err){
     			deferred.reject(err);
     		});
     		return deferred.promise;
-    	},
-
-    	bookedListForUser: function(username, start, end){
-    		var deferred = global.q.defer();
-			_bookedListForUser(username, start, end).then(function(res){
-				deferred.resolve(res);
-			}, function(err){
-				deferred.reject(err);
-			});
-			return deferred.promise;
-    	},
-
-    	bookedListForAdmin: function(start, end){
-    		var deferred = global.q.defer();
-			_bookingListForAdmin(start, end).then(function(res){
-				deferred.resolve(res);
-			}, function(err){
-				deferred.reject(err);
-			});
-			return deferred.promise;
     	},
 
     	createBooking: function(username, date, slot){
@@ -78,40 +58,21 @@ function _advBookingDate(){
 	return deferred.promise;
 }
 
-function _bookedList(startdate, enddate){
+function _bookedList(startdate, enddate, regular, username){
 	var deferred = global.q.defer();
-	var start = moment.parseZone(startdate);
-	var end = moment.parseZone(enddate);
-	var query = global.connection.query('SELECT id, username, date, slot FROM booking WHERE date >='+ global.connection.escape(start._d) + ' AND date <='+ global.connection.escape(end._d), function(err, rows, fields){
+	var start = global.tz.tz(startdate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var end = global.tz.tz(enddate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var queryString = 'SELECT id, username, date, slot FROM booking WHERE date >='+ global.connection.escape(start) + ' AND date <='+ global.connection.escape(end);
+	if(regular) {
+		//queryString = queryString + ' AND username = '+ global.connection.escape(username);
+	}
+	var query = global.connection.query(queryString, function(err, rows, fields){
 		if(err)
 			deferred.reject(err);
 
-		deferred.resolve(rows);
-	});
-	return deferred.promise;
-}
-
-function _bookedListForUser(username, startdate, enddate){
-	var deferred = global.q.defer();
-	var start = new Date(startdate);
-	var end = new Date(enddate);
-	var query = global.connection.query('SELECT id, username, date, slot FROM booking WHERE date >= '+ global.connection.escape(start) + ' AND date <= '+ global.connection.escape(end) +' AND username = '+ global.connection.escape(username), function(err, rows, fields){
-		if(err)
-			deferred.reject(err);
-
-		deferred.resolve(rows);
-	});
-	return deferred.promise;
-}
-
-function _bookingListForAdmin(startdate, enddate){
-	var deferred = global.q.defer();
-	var start = new Date(startdate);
-	var end = new Date(enddate);
-	var query = global.connection.query('SELECT * from booking WHERE date >=' + global.connection.escape(start)+ ' AND date <=' + global.connection.escape(end), function(err, rows, fields){
-		if(err)
-			deferred.reject(err);
-
+		for(var i=0; i<rows.length; i++) {
+			rows[i].date = global.tz.tz(timezonesetting(rows[i].date), "Asia/Kolkata").format();
+		}
 		deferred.resolve(rows);
 	});
 	return deferred.promise;
@@ -124,12 +85,15 @@ function _createBooking(id, username, date, slot, type){
 	}else{
 		slot = 2;
 	}
-	moment(date).utcOffset('+05:30');
-	var post  = {id: id, username: username, date: date, slot: slot, type: type};
+	date = global.tz.tz(date, "Asia/Kolkata").format("YYYY-MM-DD");
+	var post  = {id: id, username: username.username, date: date, slot: slot, type: type};
 	var query = global.connection.query('INSERT INTO booking SET ?', post, function(err, result) {
-		if(err)
-		  	deferred.reject(err);
-		
+		if(err) {
+			if(err.code === "ER_DUP_ENTRY") {
+				deferred.reject("Slot is already booked");
+			}
+			deferred.reject(err);
+		}
 		deferred.resolve(result);
 	});
 	return deferred.promise;
@@ -144,4 +108,12 @@ function _cancelBooking(bookingId){
 		deferred.resolve(result);
 	});
 	return deferred.promise;
+}
+
+function timezonesetting(datetime) {
+	var date = global.moment(datetime);
+	var newdate = date.clone();
+	// shift the moment by the difference in offsets
+	newdate.add(date.utcOffset() - newdate.utcOffset(), 'minutes').format();
+	return global.moment(newdate)._d;
 }

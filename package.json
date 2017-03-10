@@ -7,6 +7,7 @@
     "jsonwebtoken": "^7.0.1",
     "jwt-simple": "^0.4.1",
     "moment": "^2.14.1",
+    "moment-timezone": "^0.5.11",
     "mysql": "^2.5.4",
     "q": "^1.4.1",
     "request": "^2.69.0"

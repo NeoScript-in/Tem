@@ -9,7 +9,7 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
     $scope.bookingWindow = true;
     $scope.holidayList = [];
     $scope.toCancel = {};
-
+    $scope.cancelList = [];
     $scope.dateValue = function(day, month, year){
         return new Date(year, month-1, day);
     };
@@ -24,7 +24,7 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
     };
 
     $scope.book = function(){
-        var bookingDate = $scope.slotValue.date.setDate($scope.slotValue.date.getDate() + 1);
+        //var bookingDate = $scope.slotValue.date.setDate($scope.slotValue.date.getDate() + 1);
         bookingService.newBooking($scope.userName, $scope.slotValue.date, $scope.slotValue.slot).then(function(res){
             toastr.success("Slot Booked", "Success");
         }).catch(function(err){
@@ -56,6 +56,15 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
     };
 
     $scope.showCancelList = function(){
+        if(!$scope.adminType) {
+            for (var i=0; i<$scope.bookedList.length; i++) {
+                if($scope.bookedList[i].username === $scope.userName) {
+                    $scope.cancelList.push($scope.bookedList[i]);
+                }
+            }
+        } else {
+            $scope.cancelList = $scope.bookedList;
+        }
         $scope.bookingWindow = false;
     }
 
@@ -85,6 +94,13 @@ app.controller('home',function($scope, $location, $q, $sce, bookingService, user
                     $scope.dateRange = [];
                     $scope.dateRange = validDates($scope.bookingDate.bookstart, $scope.bookingDate.bookend);
                     $scope.bookedList = result.bookedList.data;
+                    if(!userService.userType){
+                        for(var i=0; i<$scope.bookedList.length; i++){
+                            if($scope.bookedList[i].username !== localStorage.getItem('userName')){
+                                $scope.bookedList.splice(i,1);
+                            }
+                        }
+                    }
                 });
             }else{
                 toastr.warning("Machine is currently unavailable for booking.", "Unavailable", {

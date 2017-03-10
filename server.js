@@ -4,6 +4,8 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 global.moment = require('moment');
+global.tz = require('moment-timezone');
+tz().tz("Asia/Kolkata").format();
 global.q = require('q');
 global.connection = require('./connection/mysql.js')();
 global.config = require('./config');

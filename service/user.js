@@ -127,7 +127,7 @@ function _login(username, password, admin){
 	    }
 
 	    if(result.length > 0){
-	    	var token = global.util.createJWT(result[0].username);
+	    	var token = global.util.createJWT(result[0]);
 	    	var type = false;
 	    	if(result[0].type === "admin")
 	    		type = true;
@@ -143,7 +143,7 @@ function _login(username, password, admin){
 
 function _passwordChange(password, id){
 	var deferred = global.q.defer();
-	var query = global.connection.query('UPDATE user SET password='+global.connection.escape(password)+' WHERE username = ' + global.connection.escape(id), function(err, result) {
+	var query = global.connection.query('UPDATE user SET password='+global.connection.escape(password)+' WHERE username = ' + global.connection.escape(id.username), function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 
@@ -155,7 +155,7 @@ function _passwordChange(password, id){
 
 function _passwordCheck(password, id){
 	var deferred = global.q.defer();
-	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(id) + ' AND password = '+ global.connection.escape(password), function(err, result) {
+	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(id.username) + ' AND password = '+ global.connection.escape(password), function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 
@@ -229,10 +229,10 @@ function _deleteUser(id){
 
 }
 
-function _userExist(username){
+function _userExist(obj){
 
 	var deferred = global.q.defer();
-	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(username), function(err, result) {
+	var query = global.connection.query('SELECT COUNT(*) AS count FROM user WHERE username = ' + global.connection.escape(obj.username), function(err, result) {
 	    if(err)
 	    	deferred.reject(err);
 

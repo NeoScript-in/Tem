@@ -87,6 +87,7 @@ module.exports = function(){
 function _addHoliday(date, reason){
 
 	var deferred = global.q.defer();
+	date = global.tz.tz(date, "Asia/Kolkata").format("YYYY-MM-DD");
 	var post  = {date: date, reason: reason};
 	var query = global.connection.query('INSERT INTO holiday SET ?', post, function(err, result) {
 		if(err)
@@ -100,7 +101,7 @@ function _addHoliday(date, reason){
 function _removeHoliday(date){
 
 	var deferred = global.q.defer();
-	var date = date;
+	date = global.tz.tz(date, "Asia/Kolkata").format("YYYY-MM-DD");;
 	var query = global.connection.query('DELETE FROM holiday WHERE date = ' + global.connection.escape(date), function(err, result) {
 		if(err)
 		  	deferred.reject(err);
@@ -127,8 +128,8 @@ function _listHolidayWithLimit(enddate){
 
 	var deferred = global.q.defer();
 	var today = new Date();
-	var end = new Date(enddate);
-	global.connection.query('select * from holiday WHERE date >= '+ global.connection.escape(today) + ' AND date <=' + global.connection.escape(end), function(err, rows, fields) {
+	var a = global.tz.tz(enddate, "Asia/Kolkata").format("YYYY-MM-DD");
+	global.connection.query('select * from holiday WHERE date >= '+ global.connection.escape(today) + ' AND date <=' + global.connection.escape(a), function(err, rows, fields) {
 	    if (err) 
 	    	deferred.reject(err);
 
@@ -137,9 +138,14 @@ function _listHolidayWithLimit(enddate){
 	return deferred.promise;
 }
 
-function _advSettingAdd(id, advStartDate, advEndDate, bookingStartDate, bookingEndDate){
+function _advSettingAdd(id, advStartDate, advEndDate, 
+bookingStartDate, bookingEndDate) {
+	var a = global.tz.tz(advStartDate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var b = global.tz.tz(advEndDate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var c = global.tz.tz(bookingStartDate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var d = global.tz.tz(bookingEndDate, "Asia/Kolkata").format("YYYY-MM-DD");
 	var deferred = global.q.defer();
-	var post  = {id: id, advancebookstart: advStartDate, advancebookend: advEndDate, bookstart: bookingStartDate, bookend: bookingEndDate};
+	var post  = {id: id, advancebookstart: a, advancebookend: b, bookstart: c, bookend: d};
 	var query = global.connection.query('INSERT INTO bookingdate SET ?', post, function(err, result) {
 		if(err)
 		  	deferred.reject(err);
@@ -150,8 +156,12 @@ function _advSettingAdd(id, advStartDate, advEndDate, bookingStartDate, bookingE
 }
 
 function _advSettingUpdate(id, advStartDate, advEndDate, bookingStartDate, bookingEndDate){
+	var a = global.tz.tz(advStartDate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var b = global.tz.tz(advEndDate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var c = global.tz.tz(bookingStartDate, "Asia/Kolkata").format("YYYY-MM-DD");
+	var d = global.tz.tz(bookingEndDate, "Asia/Kolkata").format("YYYY-MM-DD");
 	var deferred = global.q.defer();
-	var query = global.connection.query('UPDATE bookingdate SET advancebookstart = '+global.connection.escape(advStartDate)+', advancebookend = '+global.connection.escape(advEndDate)+', bookstart = '+global.connection.escape(bookingStartDate)+', bookend='+global.connection.escape(bookingEndDate)+'WHERE id = ' + global.connection.escape(data.id), post, function(err, result) {
+	var query = global.connection.query('UPDATE bookingdate SET advancebookstart = '+global.connection.escape(a)+', advancebookend = '+global.connection.escape(b)+', bookstart = '+global.connection.escape(c)+', bookend='+global.connection.escape(d)+'WHERE id = ' + global.connection.escape(data.id), post, function(err, result) {
 		if(err)
 		  	deferred.reject(err);
 		

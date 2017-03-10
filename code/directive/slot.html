@@ -21,7 +21,7 @@
           <td>
             <span class="slot">
               <input type="radio" name="slot" ng-model="$parent.slotValue" ng-value = "i.slot[1]" ng-disabled="isDisabled(i.slot[0].date, 'slot2')">
-              <span ng-bind-html = "isBooked(i.slot[0].date, 'slot2') || isHoliday(i.slot[0].date) || isMaintenance(i.slot[0].date) || isAvailable()"></span>
+              <span ng-bind-html = "isBooked(i.slot[0].date, 'slot2') ||  isMaintenance(i.slot[0].date) || isHoliday(i.slot[0].date) || isAvailable()"></span>
             </span>
           </td>
         </tr>

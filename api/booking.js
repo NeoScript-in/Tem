@@ -12,7 +12,11 @@ module.exports = function(){
 	global.app.post('/booked/list', global.util.userAuthentication, function(req, res) {
 		var start  = req.body.startdate;
 		var end = req.body.enddate;
-		global.bookingService.bookedList(start, end).then(function(result){
+		var regular = false;
+		if(req.username.type === "regular") {
+			regular = true;
+		}
+		global.bookingService.bookedList(start, end, regular, req.username.username).then(function(result){
 			res.status(200).send(result);
 		}, function(err){
 			res.status(500).send(err);
