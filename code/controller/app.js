@@ -11,7 +11,7 @@ app.controller('app',function($scope, $location){
         localStorage.removeItem('token');
         localStorage.removeItem('userName');
         localStorage.removeItem('admin');
-        $location.url('/login');
+        window.location.href = "/#/login";
     };
 
 });
