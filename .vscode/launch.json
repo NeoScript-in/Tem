@@ -16,7 +16,11 @@
             ],
             "env": {
                 "NODE_ENV": "development",
-                "TZ": "Asia/Kolkata"
+                "TZ": "Asia/Kolkata",
+                "HOST": "sql3.freemysqlhosting.net",
+                "USER": "sql3163247",
+                "PASSWORD": "brsTMWA68p",
+                "DB":"sql3163247"
             },
             "console": "internalConsole",
             "sourceMaps": false,

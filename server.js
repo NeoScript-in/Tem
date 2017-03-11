@@ -7,7 +7,6 @@ global.moment = require('moment');
 global.tz = require('moment-timezone');
 tz().tz("Asia/Kolkata").format();
 global.q = require('q');
-global.connection = require('./connection/mysql.js')();
 global.config = require('./config');
 
 app = express();
@@ -21,6 +20,16 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
     next();
 });
+
+
+//DB connection
+var mysql = require('mysql');
+global.connection = mysql.createConnection({
+    		  host     : process.env.HOST,
+			  user     : process.env.USER,
+			  password : process.env.PASSWORD,
+			  database : process.env.DB		
+            });
 
 app.listen(process.env.PORT || 8100, function(req,res){
     //TODO: replace console log with loggly
